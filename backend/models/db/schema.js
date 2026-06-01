@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, smallint, timestamp, array } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, smallint, timestamp } from 'drizzle-orm/pg-core';
 
 
 // USERS
@@ -40,4 +40,4 @@ const rating = pgTable('rating', {
   ratedAt: timestamp('rated_at').defaultNow(),
 })
 
-module.exports = { users, films, recommendations, rating }
+export { users, films, recommendations, rating }
