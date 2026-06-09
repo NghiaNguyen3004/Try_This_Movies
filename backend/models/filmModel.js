@@ -12,7 +12,7 @@ export const filmRecommendations = async (userId, guestId, genres) => {
 
     try{
         //fetch films from TMDB
-        let films = await fetchFilmsByGenre(genreNames);
+        let filmsResult = await fetchFilmsByGenre(genreNames);
         // If guest, filter out films that have been recommended in this session
         if(guestId){
             const seen = await db
@@ -20,7 +20,7 @@ export const filmRecommendations = async (userId, guestId, genres) => {
                         .from(recommendations)
                         .where(eq(recommendations.guestId, guestId));
             const seenIds = seen.map(s => s.filmTmdbId);
-            films = films.filter(f=> !seenIds.includes(f.tmdbId));
+            films = filmsResult.filter(f=> !seenIds.includes(f.tmdbId));
         }
         // If user, filter out films that have been recommended to this user
         if(userId){
@@ -29,7 +29,7 @@ export const filmRecommendations = async (userId, guestId, genres) => {
             .from(recommendations)
             .where(eq(recommendations.userId, userId));
             const seenIds = seen.map(s => s.filmTmdbId);
-            films = films.filter(f => !seenIds.includes(f.tmdbId));
+            films = filmsResult.filter(f => !seenIds.includes(f.tmdbId));
         }
 
         // Pick the first film from the filtered list
@@ -43,7 +43,7 @@ export const filmRecommendations = async (userId, guestId, genres) => {
             guestId: guestId,
             filmTmdbId: recommendation.tmdbId,
             genreSearched: genreNames,
-        });
+        }).onConflictDoNothing();
         return { film: recommendation };
     } catch (error) {
         console.error('Error fetching film recommendations:', error);
