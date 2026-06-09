@@ -5,14 +5,30 @@ import {v4 as uuidv4} from 'uuid';
 export const identifyUser = (req, res, next) => {
     const token = req.cookies.token;
     if (token){
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
+        try{
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+            return next();
+        } catch (err){
+            res.clearCookie('token');
+            res.status(401).json({ message: 'Invalid token' });
+        }
+
+    } 
+
+    if (req.cookies.guestId) {
+        req.guest = {id: req.cookies.guestId};
     } else{
-        //If no token, this is a guest session, assign a guest ID
-        req.user = { id: `guest_${uuidv4()}` };
-        next();
+        const guestId = uuidv4();
+        res.cookie('guestId', guestId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 2 * 24 * 60 * 60 * 1000,
+        });
+        req.guest = { id: guestId };
     }
+    next();
 }
 
 export const requireAuth = (req, res, next) => {
