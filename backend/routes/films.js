@@ -2,6 +2,7 @@ import express from "express";
 
 import {requireAuth, identifyUser} from "../middleware/identityCheck.js";
 import {getFilmRecommendationController} from "../controller/filmRecommendController.js";
+import {GENRE_MAP} from "../models/services/tmdb.js";
 
 const filmsRoutes = express.Router();
 
