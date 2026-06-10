@@ -86,4 +86,17 @@ authRoutes.post('/logout', (req, res) => {
     return res.status(200).json({ message: 'Logout successful' });
 });
 
+authRoutes.get('/me', async (req, res) => {
+    if (req.user){
+        const [user] = await db.select({id: users.id, username: users.username, email: users.email}).from(users).where(eq(users.id, req.user.userId));
+        if(!user){
+            res.clearCookie('token');
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({ user });
+    } else{
+        return res.status(200).json({user: null});
+    }
+});
+
 export default authRoutes;

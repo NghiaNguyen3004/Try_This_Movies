@@ -1,7 +1,7 @@
 import db from "../models/db/index.js";
-import {recommendations, films} from "../models/db/schema.js";
+import {recommendations, films, rating} from "../models/db/schema.js";
 import {eq, and} from "drizzle-orm";
-import {fetchFilmsByGenre, fetchFilmById, getGenreId, GENRE_MAP} from "../models/services/tmdb.js";
+import {fetchFilmsByGenre, fetchFilmById, getGenreId, GENRE_MAP} from "./services/tmdb.js";
 
 export const filmRecommendations = async (userId, guestId, genres) => {
 
@@ -58,6 +58,31 @@ export const filmRecommendations = async (userId, guestId, genres) => {
         return { film: recommendation };
     } catch (error) {
         console.error('Error fetching film recommendations:', error);
+        return { message: 'Internal server error' };
+    }
+}
+
+export const filmRating = async (userId, filmTmdbId, score) => {
+    if (!score || score < 1 || score > 5) {
+        return { message: 'Score must be between 1 and 5' };
+    }
+    const [filmExisted] = await db.select().from(films).where(eq(films.tmdbId, filmTmdbId));
+    if(!filmExisted){
+        return { message: 'Film not found' };
+    }
+
+    try{
+        await db.insert(rating).values({
+            userId,
+            filmId: filmTmdbId,
+            score,
+        }).onConflictDoUpdate({
+            target: [rating.userId, rating.filmId],
+            set: { score, ratedAt: new Date() },
+        });
+        return { message: 'Rating saved successfully' };
+    } catch (error) {
+        console.error('Error saving rating:', error);
         return { message: 'Internal server error' };
     }
 }

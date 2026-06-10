@@ -8,6 +8,34 @@
       "when": 1780281857940,
       "tag": "0000_pale_dagger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781061662718,
+      "tag": "0001_certain_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781062734018,
+      "tag": "0002_wealthy_maggott",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1781064032553,
+      "tag": "0003_sad_forgotten_one",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1781064438658,
+      "tag": "0004_dry_otto_octavius",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,2 @@
+ALTER TABLE "rating" ADD CONSTRAINT "rating_user_id_unique" UNIQUE("user_id");--> statement-breakpoint
+ALTER TABLE "rating" ADD CONSTRAINT "score_range" CHECK ("rating"."score" >= 1 AND "rating"."score" <= 5);

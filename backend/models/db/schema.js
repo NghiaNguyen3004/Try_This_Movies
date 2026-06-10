@@ -1,5 +1,5 @@
-import { pgTable, serial, text, integer, smallint, timestamp } from 'drizzle-orm/pg-core';
-
+import { pgTable, serial, text, integer, smallint, timestamp, check, unique } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 // USERS
 const users = pgTable('users', {
@@ -35,9 +35,14 @@ const recommendations = pgTable('recommendations', {
 const rating = pgTable('rating', {
   id: serial('id').primaryKey(),
   userId: integer('user_id').notNull().references(() => users.id),  // FK → users ✅
-  filmId: integer('film_id').notNull().references(() => films.id),  // FK → films ✅
+  filmId: integer('film_id').notNull().references(() => films.tmdbId),  // FK → films ✅
   score: smallint('score').notNull(),                               // notNull ✅
   ratedAt: timestamp('rated_at').defaultNow(),
-})
+},
+  (rating) => [
+    unique().on(rating.userId, rating.filmId),
+    check('score_range', sql`${rating.score} >= 1 AND ${rating.score} <= 5`), // Add check constraint for score range
+  ]
+)
 
 export { users, films, recommendations, rating }

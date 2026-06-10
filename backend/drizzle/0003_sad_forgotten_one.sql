@@ -1,0 +1,1 @@
+ALTER TABLE "rating" ADD CONSTRAINT "rating_film_id_unique" UNIQUE("film_id");
