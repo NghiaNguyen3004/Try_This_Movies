@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import db from '../models/db/index.js';
 import {users} from '../models/db/schema.js';
 import {eq} from 'drizzle-orm';
+import {migrateGuestToUser} from '../models/userModel.js';
 
 const authRoutes = express.Router();
 
@@ -27,12 +28,18 @@ authRoutes.post('/register', async (req, res) => {
         // Insert user into DB
         const newUser = await db.insert(users).values({username, email, hashPassword}).returning({id: users.id, username: users.username, email: users.email});
 
+        //Migrate guest to user
+        await migrateGuestToUser(req.cookies.guestId, newUser[0].id);
+        res.clearCookie('guestId');
+
         // Generate JWT
         const token = jwt.sign(
             { userId: newUser[0].id },
             process.env.JWT_SECRET,
             { expiresIn: '2h' }
         )
+
+
         // Return the new user and token
         return res.status(201).json({ message: 'User created successfully', user: newUser[0], token });
     } catch(error){
@@ -71,6 +78,9 @@ authRoutes.post('/login', async (req, res) => {
             sameSite: 'strict',
             maxAge: 2 * 60 * 60 * 1000, // 2 hours
         });
+
+        await migrateGuestToUser(req.cookies.guestId, user[0].id);
+        res.clearCookie('guestId');
 
         // Return user and token
         return res.status(200).json({ message: 'Login successful', user: { id: user[0].id, username: user[0].username }, token });
