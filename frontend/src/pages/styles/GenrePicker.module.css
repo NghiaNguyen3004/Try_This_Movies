@@ -1,0 +1,84 @@
+.page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 3rem 24px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 500;
+    color: #111827;
+    margin: 0 0 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 32px;
+}
+
+.sectionLabel {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    margin: 0 0 12px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.chip {
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 0.5px solid #d1d5db;
+    background: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.chip:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.selected {
+    background-color: #111827;
+    color: #ffffff;
+    border-color: #111827;
+}
+
+.selected:hover {
+    background-color: #1f2937;
+}
+
+.error {
+    font-size: 13px;
+    color: #dc2626;
+    background-color: #fef2f2;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+}
+
+.btn {
+    height: 36px;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: 0.5px solid #d1d5db;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn:hover {
+    background-color: #f3f4f6;
+}

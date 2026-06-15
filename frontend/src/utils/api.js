@@ -1,5 +1,3 @@
-
-
 export const apiRequest = async (endpoint, options = {}) =>{
     const config = {
         credentials: 'include',
@@ -22,4 +20,5 @@ export const apiRequest = async (endpoint, options = {}) =>{
     }
     return data;
 }
+
 
