@@ -5,8 +5,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/auth': 'http://localhost:3000',
-      '/films': 'http://localhost:3000',
+      '/auth': 'https://try-this-movies.onrender.com',
+      '/films': 'https://try-this-movies.onrender.com',
     }
   }
 })
