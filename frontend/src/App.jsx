@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
+import ProtectedRoute from './components/protectedRoute.jsx';
+import PublicRoute from './components/PublicRoute.jsx';
 
 // Pages (you'll create these next)
 import LoginPage from './pages/LoginPage.jsx';
@@ -17,8 +18,19 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<GenrePickerPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+
+        <Route path="/login" element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        } />
+
+        <Route path="/register" element={
+          <PublicRoute>
+            <RegisterPage />
+          </PublicRoute>
+        } />
+
         <Route path="/recommend" element={<RecommendPage />} />
         <Route path="/history" element={
           <ProtectedRoute>
