@@ -1,6 +1,6 @@
 import db from "../models/db/index.js";
 import {recommendations, films, rating} from "../models/db/schema.js";
-import {eq, and} from "drizzle-orm";
+import {eq, and, desc} from "drizzle-orm";
 import {fetchFilmsByGenre, fetchFilmById, getGenreId, GENRE_MAP} from "./services/tmdb.js";
 
 export const filmRecommendations = async (userId, guestId, genres) => {
@@ -83,6 +83,36 @@ export const filmRating = async (userId, filmTmdbId, score) => {
         return { message: 'Rating saved successfully' };
     } catch (error) {
         console.error('Error saving rating:', error);
+        return { message: 'Internal server error' };
+    }
+}
+
+export const getFilmHistory = async(userId, page = 1 , limit = 20) =>{
+    try{
+        const offset = (page - 1) * limit;
+        const filmHistory =  await db
+            .select({
+                recommendedAt: recommendations.recommendedAt,
+                title: films.title,
+                posterUrl: films.posterUrl,
+                releaseYear: films.releaseYear,
+                tmdbId: films.tmdbId,
+                score: rating.score,
+            })
+            .from(recommendations)
+            .innerJoin(films, eq(recommendations.filmTmdbId, films.tmdbId))
+            .leftJoin(rating, and(
+                eq(rating.filmId, films.tmdbId),
+                eq(rating.userId, userId)
+            ))
+            .where(eq(recommendations.userId, userId))
+            .orderBy(desc(recommendations.recommendedAt))
+            .limit(limit)
+            .offset(offset)
+            return {history: filmHistory};
+    }
+    catch (error) {
+        console.error('Error fetching film history:', error);
         return { message: 'Internal server error' };
     }
 }

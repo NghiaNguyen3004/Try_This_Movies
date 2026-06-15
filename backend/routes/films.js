@@ -1,9 +1,10 @@
 import express from "express";
 
-import {requireAuth, identifyUser} from "../middleware/identityCheck.js";
+import {requireAuth} from "../middleware/identityCheck.js";
 import {getFilmRecommendationController} from "../controller/filmRecommendController.js";
 import {rateFilmController} from "../controller/filmRatingController.js";
 import {GENRE_MAP} from "../models/services/tmdb.js";
+import {getFilmHistoryController} from "../controller/filmHistoryController.js";
 
 const filmsRoutes = express.Router();
 
@@ -20,8 +21,12 @@ filmsRoutes.get('/genres', (req, res) => {
 
 // Get /films/recommendations?genres=? - Get film recommendations based on genres
 filmsRoutes.get('/recommend', getFilmRecommendationController);
+// GET /films/history - Get film history for a user
+filmsRoutes.get('/history', requireAuth, getFilmHistoryController);
 
 // POST /films/rate - Submit a rating for a film
 filmsRoutes.post('/rate', requireAuth, rateFilmController);
+
+
 
 export default filmsRoutes;
