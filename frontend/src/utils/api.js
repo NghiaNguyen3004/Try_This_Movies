@@ -1,13 +1,15 @@
-const config = {
-    credentials: 'include',
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-    },
-    ...options,
-};
+
 
 export const apiRequest = async (endpoint, options = {}) =>{
+    const config = {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
+        ...options,
+    };
+
     const response = await fetch(endpoint, config);
     if (response.status === 401){
         window.location.href = '/login';

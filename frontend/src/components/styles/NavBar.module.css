@@ -1,0 +1,72 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+.brand {
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #111827;
+    cursor: pointer;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.link {
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.registerBtn {
+    font-size: 14px;
+    color: #111827;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background: none;
+    cursor: pointer;
+}
+
+.registerBtn:hover {
+    background-color: #f3f4f6;
+}
+
+.username {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.logoutBtn {
+    font-size: 14px;
+    color: #dc2626;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.logoutBtn:hover {
+    background-color: #fef2f2;
+}
