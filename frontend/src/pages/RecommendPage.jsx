@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/authContext.jsx';
 import {apiRequest} from '../utils/api.js';
 import styles from './styles/RecommendPage.module.css';
 

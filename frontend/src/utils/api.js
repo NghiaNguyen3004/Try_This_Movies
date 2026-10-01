@@ -1,3 +1,5 @@
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
 export const apiRequest = async (endpoint, options = {}) =>{
     const config = {
         credentials: 'include',
@@ -8,7 +10,7 @@ export const apiRequest = async (endpoint, options = {}) =>{
         ...options,
     };
 
-    const response = await fetch(endpoint, config);
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
     if (response.status === 401){
         window.location.href = '/login';
         return;
@@ -20,5 +22,4 @@ export const apiRequest = async (endpoint, options = {}) =>{
     }
     return data;
 }
-
 
