@@ -23,7 +23,7 @@ export const identifyUser = (req, res, next) => {
         res.cookie('guestId', guestId, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 2 * 24 * 60 * 60 * 1000,
         });
         req.guest = { id: guestId };
@@ -37,4 +37,3 @@ export const requireAuth = (req, res, next) => {
     }
     next();
 }
-
